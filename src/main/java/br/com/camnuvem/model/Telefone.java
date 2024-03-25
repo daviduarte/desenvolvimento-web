@@ -18,7 +18,7 @@ public class Telefone {
     private String numero;
 
     @org.hibernate.annotations.ForeignKey(name="usuario_id")
-    @ManyToOne      // Define o tipo da relação. Muitos telefones para 1 Usuario
+    @ManyToOne(optional = false)      // Define o tipo da relação. Muitos telefones para 1 Usuario
     @JsonIgnore
     private Usuario usuario;
 
