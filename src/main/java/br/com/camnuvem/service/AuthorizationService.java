@@ -8,15 +8,18 @@ import org.springframework.stereotype.Service;
 
 import br.com.camnuvem.repository.UsuarioRepository;
 
+// implements UserDetailsService - Pertencente ao Spring Security
 @Service
-public class AuthorizationService implements UserDetailsService{
+public class AuthorizationService implements UserDetailsService {
 
     @Autowired
-    UsuarioRepository repository;
+    UsuarioRepository usuarioRepository;
 
+    // Aqui nós vamos fazer a consulta dos usuários no BD para passar para o 
+    // Spring Security
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findUserByLogin(username);
-    }
+        return usuarioRepository.findByLogin(username);
+    }   
 
 }
