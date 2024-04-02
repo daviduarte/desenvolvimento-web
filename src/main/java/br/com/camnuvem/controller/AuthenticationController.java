@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.camnuvem.model.AuthenticationDTO;
 import br.com.camnuvem.model.LoginResponseDTO;
+import br.com.camnuvem.model.Person;
 import br.com.camnuvem.model.RegisterDTO;
 import br.com.camnuvem.model.Usuario;
 import br.com.camnuvem.repository.UsuarioRepository;
@@ -56,8 +57,14 @@ public class AuthenticationController {
 
         // Caso não exista, vamos encriptar a senha para salvar no BD. A senha bruta do usuário 
         // NÃO DEVE SER INSERIDA NO BD POR MEDIDAS DE SEGURANÇA.
+
+
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Usuario newUser = new Usuario(data.login(), encryptedPassword, data.role());
+        System.out.println(data.login());
+        System.out.println(encryptedPassword);
+        System.out.println(data.role());
+
+        Person newUser = new Person(data.login(), encryptedPassword, data.role(), "teste", "teste");
 
         this.usuarioRepository.save(newUser);
 

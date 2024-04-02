@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.camnuvem.model.Person;
 import br.com.camnuvem.model.Usuario;
 import br.com.camnuvem.repository.UsuarioRepository;
 
@@ -37,13 +38,13 @@ public class IndexController {
     @GetMapping(value="/endpoint2", produces="application/json")
     public ResponseEntity init2 (){
 
-        Usuario usuario = new Usuario();
+        Usuario usuario = new Person();
         usuario.setId(1L);
         usuario.setLogin("user@gmail.com");
         usuario.setNome("Usuario");
         usuario.setSenha("123");
 
-        Usuario usuario2 = new Usuario();
+        Usuario usuario2 = new Person();
         usuario2.setId(2L);
         usuario2.setLogin("user2@gmail.com");
         usuario2.setNome("Usuario 2");

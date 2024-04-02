@@ -13,19 +13,29 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ConstraintMode;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.UniqueConstraint;
+import br.com.camnuvem.model.Camera;
 
 
+//@MappedSuperclass
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Usuario_Type")
 public class Usuario implements UserDetails{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -33,9 +43,34 @@ public class Usuario implements UserDetails{
 
     private String login;
     private String senha;
-    private String nome;
     private UserRole role;
-    
+
+	//@JsonIgnore
+	//@org.hibernate.annotations.ForeignKey(name = "camera_id")
+    @JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable( name = "cameras_usuarios", 
+                uniqueConstraints = @UniqueConstraint (
+                    columnNames = {"camera_id","usuario_id"}, 
+                    name = "unique_user_camera"
+                ), 
+	            joinColumns = @JoinColumn(name = "usuario_id", 
+                    referencedColumnName = "id", 
+                    table = "usuario", 
+                    unique = false
+                ), 
+	            inverseJoinColumns = @JoinColumn (
+                    name = "camera_id", 
+                    referencedColumnName = "id", 
+                    table = "camera", 
+                    unique = false
+                )
+            )    
+	private List<Camera> cameras = new ArrayList<Camera>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Telefone> telefones = new ArrayList<Telefone>();    
+
     public Usuario(){
         
     }
@@ -43,7 +78,6 @@ public class Usuario implements UserDetails{
     public Usuario(String login, String senha, String nome, UserRole role){
         this.login = login;
         this.senha = senha;
-        this.nome = nome;
         this.role = role;
     }
 
@@ -52,9 +86,7 @@ public class Usuario implements UserDetails{
         this.senha = senha;
         this.role = role;
     }
-    
-    @OneToMany(mappedBy = "usuario", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Telefone> telefones = new ArrayList<Telefone>();
+
 
 
     public String getLogin() {
@@ -100,18 +132,25 @@ public class Usuario implements UserDetails{
     public void setId(Long id) {
         this.id = id;
     }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+
     public List<Telefone> getTelefones() {
         return telefones;
     }
     public void setTelefones(List<Telefone> telefones) {
         this.telefones = telefones;
     }
+
+    
+
+    public List<Camera> getCameras() {
+        return cameras;
+    }
+
+    public void setCameras(List<Camera> cameras) {
+        this.cameras = cameras;
+    }
+
+    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -157,6 +196,14 @@ public class Usuario implements UserDetails{
     public boolean isEnabled() {
         // TODO Auto-generated method stub
         return true;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
 
