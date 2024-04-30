@@ -11,6 +11,7 @@
 	<groupId>br.com.camnuvem</groupId>
 	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>api</name>
 	<description>API para gerenciamento de câmeras</description>
 	<properties>

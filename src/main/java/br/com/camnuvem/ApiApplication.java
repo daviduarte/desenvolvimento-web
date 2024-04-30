@@ -25,7 +25,16 @@ public class ApiApplication implements WebMvcConfigurer {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiApplication.class, args);
 	}
-	
+
+
+	public void addCorsMappings(CorsRegistry registry){
+		registry.addMapping("/camera/**")
+			.allowedMethods("*")
+			//.allowedMethods("POST", "DELETE")
+			//.allowedOrigins( "http://www.cliente1.com", 
+				//						"http://www.cliente2.com");
+			.allowedOrigins("*");
+	}
 
 }
 

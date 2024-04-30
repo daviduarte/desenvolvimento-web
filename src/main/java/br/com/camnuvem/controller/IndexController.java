@@ -41,13 +41,11 @@ public class IndexController {
         Usuario usuario = new Person();
         usuario.setId(1L);
         usuario.setLogin("user@gmail.com");
-        usuario.setNome("Usuario");
         usuario.setSenha("123");
 
         Usuario usuario2 = new Person();
         usuario2.setId(2L);
         usuario2.setLogin("user2@gmail.com");
-        usuario2.setNome("Usuario 2");
         usuario2.setSenha("123");        
 
         List<Usuario> list = new ArrayList<Usuario>();

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTTP GET Request</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#sendRequest").click(function(){
+        var requestData = {
+            login: "jose4@gmailcom",
+            password: "123",
+            role: "ADMIN"
+        };
+        
+        $.ajax({
+            url: "http://34.134.208.205/auth/register",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(requestData),
+            success: function(response) {
+                console.log("Success:", response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+</head>
+<body>
+    <button id="sendRequest">Send GET Request</button>
+</body>
+</html>

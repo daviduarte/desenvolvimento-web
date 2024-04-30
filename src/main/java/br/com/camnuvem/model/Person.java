@@ -4,7 +4,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("Person")
+//@DiscriminatorValue("Person")
 public class Person extends Usuario{
     private String nome;
     private String sobrenome;

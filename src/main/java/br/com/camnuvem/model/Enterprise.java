@@ -4,7 +4,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("Enterprise")
+//@DiscriminatorValue("Enterprise")
 public class Enterprise extends Usuario{
     private int reputacao;
     private String nomeEmpresa;

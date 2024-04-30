@@ -45,9 +45,8 @@ public class Usuario implements UserDetails{
     private String senha;
     private UserRole role;
 
-	//@JsonIgnore
+	@JsonIgnore
 	//@org.hibernate.annotations.ForeignKey(name = "camera_id")
-    @JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable( name = "cameras_usuarios", 
                 uniqueConstraints = @UniqueConstraint (
