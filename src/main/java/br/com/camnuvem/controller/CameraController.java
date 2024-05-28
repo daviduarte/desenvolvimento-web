@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ import br.com.camnuvem.model.Produto;
 import br.com.camnuvem.model.Usuario;
 import br.com.camnuvem.repository.CameraRepository;
 import br.com.camnuvem.repository.UsuarioRepository;
+import br.com.camnuvem.security.TokenService;
 
 @RestController
 @RequestMapping(value = "/camera")
@@ -37,12 +39,18 @@ public class CameraController {
     @Autowired
     private CameraRepository cameraRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
 
     
     // Get all cameras
     @GetMapping(value="/", produces="application/json")
-    public ResponseEntity getAll(){
+    public ResponseEntity getAll(@RequestHeader (name="Authorization") String token){
 
+        token = token.replace("Bearer ", "");
+        System.out.println("Token: "+token);
+        System.out.println("Usuario: "+ tokenService.validateToken(token));
         try{
             List<Camera> cameras = (List<Camera>)cameraRepository.findAll();
             return new ResponseEntity<>(cameras, HttpStatus.OK);
